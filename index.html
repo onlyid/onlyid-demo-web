@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>唯ID示例</title>
+    <style>
+        body {
+            width: 280px;
+            margin: 0 auto;
+            font-size: 15px;
+            color: #303133;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+</head>
+<body onload="auth()">
+<div style="margin-top: 70px; height: 150px;">
+    <p id="tip">根据业务场景，使用不同文案提示用户。<br><br>
+        如登录时：手机号登录；三方登录绑定手机时：绑定手机号；更换手机号时：验证新手机号。如果和应用已有登录方式协同使用，可提示：唯ID登录。</p>
+    <p id="result"></p>
+</div>
+<p id="tip1" style="color: #7f7f7f;">以登录为例：</p>
+<p style="text-align: center">
+    <a href="https://my.onlyid.net/auth?client_id=5ae01c99904be93f3f62101a&redirect_uri=https://demo.onlyid.net"
+       style="font-size: 17px; text-decoration: none">手机号登录</a>
+</p>
+<script>
+  /**
+   * 用于提取query参数
+   */
+  function urlArgs () {
+    const args = {}
+    const query = location.search.substring(1)
+    const pairs = query.split('&')
+    for (let i = 0; i < pairs.length; i++) {
+      const p = pairs[i].split('=')
+      args[p[0]] = decodeURIComponent(p[1])
+    }
+    return args
+  }
+
+  function auth () {
+    const code = urlArgs()['code']
+    console.log('code=', code)
+    if (!code) return
+
+    // 生产环境使用时，获取用户信息建议在服务端进行，以防泄露你的client secret
+    axios({
+      url: 'https://my.onlyid.net/user',
+      method: 'post',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      data: 'client_id=5ae01c99904be93f3f62101a&client_secret=f60ccb1cc4c19dd20c916abb58ac1ce7&code=' + code
+    }).then(function (res) {
+      document.getElementById('result').innerText = '登录成功，用户信息：\n' + JSON.stringify(res.data, null, 2)
+    }).catch(function (err) {
+      let msg
+      if (err.response) {
+        msg = err.response.data.error
+      } else {
+        msg = err.message
+      }
+
+      document.getElementById('result').innerText = '登录失败，错误信息：\n' + msg
+    })
+    document.getElementById('tip').classList.add('hidden')
+    document.getElementById('tip1').innerText = '再试一次：'
+  }
+</script>
+</body>
+</html>
