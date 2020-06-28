@@ -17,7 +17,7 @@
 </head>
 <body onload="auth()">
 <p style="text-align: center">
-    <a href="https://www.onlyid.net/oauth?client-id=你的应用id&redirect-uri=http://localhost:8080"
+    <a href="https://www.onlyid.net/oauth?client-id=5644dad0bbc54c51939053512b973a6b&redirect-uri=https%3A%2F%2Fwww.onlyid.net%2Fdemo"
        style="text-decoration: none">登录</a>
 </p>
 <p id="result"></p>
@@ -44,7 +44,7 @@
 
         // 生产环境使用时，获取用户信息建议在服务端进行，以防泄露你的client secret
         axios.post('https://www.onlyid.net/api/oauth/access-token', {
-            clientSecret: '你的应用secret',
+            clientSecret: 'e6d7e1c2e55f4632a2a01d4fa3562a5d',
             authorizationCode: code
         }).then(function (res) {
             return axios.get('https://www.onlyid.net/api/open/user-info', {
