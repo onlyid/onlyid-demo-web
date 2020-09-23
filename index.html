@@ -42,7 +42,7 @@
         console.log('code=', code)
         if (!code) return
 
-        // 生产环境使用时，获取用户信息建议在服务端进行，以防泄露你的client secret
+        // 生产环境使用时，获取用户信息建议在服务端进行，以防泄露你的Client Secret
         axios.post('https://www.onlyid.net/api/oauth/access-token', {
             clientSecret: 'e6d7e1c2e55f4632a2a01d4fa3562a5d',
             authorizationCode: code
