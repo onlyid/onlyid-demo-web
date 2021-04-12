@@ -48,7 +48,7 @@
             authorizationCode: code
         }).then(function (res) {
             return axios.get('https://www.onlyid.net/api/open/user-info', {
-                headers: { Authorization: res.data.accessToken }
+                params: { accessToken: res.data.accessToken }
             })
         }).then(function (res) {
             result.innerText = '登录成功，用户信息：\n' + JSON.stringify(res.data, null, 2)
