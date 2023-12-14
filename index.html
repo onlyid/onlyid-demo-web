@@ -12,8 +12,7 @@
             margin: 0 auto;
         }
     </style>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+    <script src="https://registry.npmmirror.com/axios/0.19.2/files/dist/axios.min.js"></script>
 </head>
 <body onload="auth()">
 <p style="text-align: center">
@@ -48,7 +47,7 @@
             authorizationCode: code
         }).then(function (res) {
             return axios.get('https://www.onlyid.net/api/open/user-info', {
-                params: { accessToken: res.data.accessToken }
+                params: { accessToken: res.data.token }
             })
         }).then(function (res) {
             result.innerText = '登录成功，用户信息：\n' + JSON.stringify(res.data, null, 2)
